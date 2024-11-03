@@ -36,18 +36,21 @@ func GetUserByEmail(incomingEmail string, users []UserModel) bool {
 }
 
 func GetUserJSONFile() []UserModel {
-	file, err := os.Open("users.json")
-	if err != nil {
-		return nil
-	}
-	var loadedUsers []UserModel
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(&loadedUsers)
-	if err != nil {
-		fmt.Print("Error decoding JSON data\n")
-		return nil
-	}
-	return loadedUsers
+	// file, err := os.Open("users.json")
+	// if err != nil {
+	// 	return nil
+	// }
+	// var loadedUsers []UserModel
+	// decoder := json.NewDecoder(file)
+	// err = decoder.Decode(&loadedUsers)
+	// if err != nil {
+	// 	fmt.Print("Error decoding JSON data\n")
+	// 	return nil
+	// }
+	// return loadedUsers
+	// usersFromJSONFile := DecodeData[UserModel](OpenFile("users.json"))
+	// return usersFromJSONFile
+	return DecodeData[UserModel](OpenFile("users.json"))
 }
 func AddUser(newUser UserModel) (bool, error) {
 	fmt.Println("Adding new user...", newUser)
