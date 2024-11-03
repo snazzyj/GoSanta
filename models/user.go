@@ -17,6 +17,15 @@ type UserModel struct {
 	Interests       []string `json:"interests"`
 }
 
+func GetUserById(id int32, users []UserModel) (UserModel, error) {
+	for _, user := range users {
+		if user.ID == id {
+			return user, nil
+		}
+	}
+	return UserModel{}, errors.New("user not found")
+}
+
 func GetUserByEmail(incomingEmail string, users []UserModel) bool {
 	for _, user := range users {
 		if strings.EqualFold(user.Email, incomingEmail) {

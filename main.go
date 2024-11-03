@@ -5,8 +5,8 @@ import (
 	"math/rand"
 	"net/http"
 
-	"secret-santa/controllers"
 	"secret-santa/models"
+	"secret-santa/routers"
 
 	"github.com/gin-gonic/gin"
 	gossr "github.com/natewong1313/go-react-ssr"
@@ -46,7 +46,6 @@ func main() {
 	g.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
 	})
-	g.GET("/v1/users", controllers.GetUsersFromJsonFile)
-	g.POST("/v1/user", controllers.AddNewUser)
+	routers.SetupUserRoute(g)
 	g.Run()
 }
