@@ -9,6 +9,7 @@ import (
 type UserModel struct {
 	ID              int32    `json:"userId"`
 	Name            string   `json:"name"`
+	Email           string   `json:"email"`
 	ActivePoolIds   []int32  `json:"activePoolIds"`
 	InactivePoolIds []int32  `json:"inactivePoolIds"`
 	Interests       []string `json:"interests"`
