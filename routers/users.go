@@ -11,6 +11,7 @@ func SetupUserRoute(g *gin.Engine) {
 
 	{
 		userGroup.GET("/all", controllers.GetUsersFromJsonFile)
+		userGroup.GET("/:id", controllers.GetUserById)
 		userGroup.POST("/", controllers.AddNewUser)
 	}
 }
