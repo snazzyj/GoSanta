@@ -21,8 +21,7 @@ func main() {
 		AssetRoute:         "/assets",
 		FrontendDir:        "./frontend/src",
 		GeneratedTypesPath: "./frontend/src/generated.d.ts",
-		TailwindConfigPath: "./frontend/tailwind.config.js",
-		LayoutCSSFilePath:  "Main.css",
+		LayoutCSSFilePath:  "Home.css",
 		PropsStructsPath:   "./models/props.go",
 	})
 	if err != nil {
