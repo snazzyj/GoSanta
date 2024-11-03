@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"math/rand"
+	"net/http"
 
 	"example.com/gin/models"
 
@@ -40,6 +41,9 @@ func main() {
 				InitialCount: rand.Intn(100),
 			},
 		}))
+	})
+	g.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, "pong")
 	})
 	g.Run()
 }
