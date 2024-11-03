@@ -2,8 +2,10 @@ package models
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type UserModel struct {
@@ -13,6 +15,15 @@ type UserModel struct {
 	ActivePoolIds   []int32  `json:"activePoolIds"`
 	InactivePoolIds []int32  `json:"inactivePoolIds"`
 	Interests       []string `json:"interests"`
+}
+
+func GetUserByEmail(incomingEmail string, users []UserModel) bool {
+	for _, user := range users {
+		if strings.EqualFold(user.Email, incomingEmail) {
+			return true
+		}
+	}
+	return false
 }
 
 func GetUserJSONFile() []UserModel {
@@ -29,13 +40,18 @@ func GetUserJSONFile() []UserModel {
 	}
 	return loadedUsers
 }
-func AddUser(newUser UserModel) bool {
+func AddUser(newUser UserModel) (bool, error) {
 	fmt.Println("Adding new user...", newUser)
 
 	newUser.ID = GenerateRandomNumber()
 	users := GetUserJSONFile()
 	if users != nil {
-		users = append(users, newUser)
+		if !GetUserByEmail(newUser.Email, users) {
+			users = append(users, newUser)
+		} else {
+			return false, errors.New("user already exist.  Please try a different email")
+		}
+
 	} else {
 		users = make([]UserModel, 0)
 		users = append(users, newUser)
@@ -44,13 +60,13 @@ func AddUser(newUser UserModel) bool {
 	jsonData, err := json.MarshalIndent(users, "", "    ")
 	if err != nil {
 		fmt.Println("err creating json: ", err)
-		return false
+		return false, errors.New("error creating json format")
 	}
 
 	file, err := os.Create("users.json")
 	if err != nil {
 		fmt.Println("err creating json file: ", err)
-		return false
+		return false, errors.New("error creating json file to os")
 	}
 
 	defer file.Close()
@@ -58,8 +74,8 @@ func AddUser(newUser UserModel) bool {
 	_, err = file.Write(jsonData)
 	if err != nil {
 		fmt.Println("err writing to json file", err)
-		return false
+		return false, errors.New("error writing to the json file")
 	}
 	fmt.Println("successfully wrote to users.json")
-	return true
+	return true, nil
 }
