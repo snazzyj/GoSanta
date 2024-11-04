@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"reflect"
 	"time"
 
 	"math/rand"
@@ -35,4 +36,15 @@ func DecodeData[T any](file *os.File) []T {
 		log.Fatal(err.Error())
 	}
 	return result
+}
+
+func searchForElement[T any](array []T, key string, value interface{}) *T {
+	for _, item := range array {
+		// Use reflection to get the value of the specified key
+		v := reflect.ValueOf(item).FieldByName(key)
+		if v.IsValid() && v.Interface() == value {
+			return &item // Return pointer to the found item
+		}
+	}
+	return nil // Return nil if not found
 }
