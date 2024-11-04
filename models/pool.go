@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -24,7 +26,6 @@ func GetPoolById(poolId int32, pool []PoolModel) *PoolModel {
 	return searchForElement(pool, "id", poolId)
 }
 func AddPool(pool PoolModel) (bool, error) {
-	fmt.Println("adding pool: ", pool)
 	pools := GetPoolJsonFile()
 	if pools != nil {
 		pools = append(pools, pool)
@@ -54,4 +55,32 @@ func AddPool(pool PoolModel) (bool, error) {
 	}
 	fmt.Println("successfully wrote to pools.json")
 	return true, nil
+}
+func ParseUserIds(userIdsStr string) []int32 {
+	// Remove brackets and split by comma
+	userIdsStr = strings.Trim(userIdsStr, "[]")
+	ids := strings.Split(userIdsStr, ",")
+	var userIds []int32
+	for _, idStr := range ids {
+		idStr = strings.TrimSpace(idStr) // Remove any whitespace
+		if id, err := strconv.ParseInt(idStr, 10, 32); err == nil {
+			userIds = append(userIds, int32(id))
+		} else {
+			// throw an error
+		}
+	}
+	return userIds
+}
+func ParsePairings(pairingsStr string) [][]int32 {
+	// Declare a variable to hold the result
+	var pairings [][]int32
+
+	// Unmarshal the JSON string into the pairings variable
+	err := json.Unmarshal([]byte(pairingsStr), &pairings)
+	if err != nil {
+		// throw an error
+		// c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid pairings format"})
+		// return
+	}
+	return pairings
 }

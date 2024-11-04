@@ -2,6 +2,7 @@ package routers
 
 import (
 	"secret-santa/controllers"
+	"secret-santa/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,6 +12,6 @@ func SetupPoolRouter(g *gin.Engine) {
 	{
 		poolGroup.GET("/all", controllers.GetPoolsFromJSONFile)
 		poolGroup.GET("/:id", controllers.GetPoolById)
-		poolGroup.POST("/", controllers.PostNewPool)
+		poolGroup.POST("/", middleware.AddCommonFieldsToRequest, controllers.PostNewPool)
 	}
 }

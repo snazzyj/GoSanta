@@ -12,7 +12,7 @@ import (
 
 type Common struct {
 	CreatedAt time.Time `json:"createdAt"`
-	Createdby string    `json:"createdBy"`
+	CreatedBy string    `json:"createdBy"`
 }
 
 func GenerateRandomNumber() int32 {
