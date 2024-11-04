@@ -47,5 +47,6 @@ func main() {
 		c.JSON(http.StatusOK, "pong")
 	})
 	routers.SetupUserRoute(g)
+	routers.SetupPoolRouter(g)
 	g.Run()
 }
