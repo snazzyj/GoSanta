@@ -12,6 +12,7 @@ func SetupPoolRouter(g *gin.Engine) {
 	{
 		poolGroup.GET("/all", controllers.GetPoolsFromJSONFile)
 		poolGroup.GET("/:id", controllers.GetPoolById)
+		poolGroup.GET("/pairs", controllers.GeneratePoolPairs)
 		poolGroup.POST("/", middleware.AddCommonFieldsToRequest, controllers.PostNewPool)
 	}
 }
